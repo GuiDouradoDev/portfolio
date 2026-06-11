@@ -14,6 +14,7 @@ Site de portfólio profissional com painel administrativo. Construído com Node.
 - **Animações** — Scroll reveal com fade, scale e direção, efeitos hover com glow e shine, barras animadas, stagger delays
 - **Micro-interações** — Navbar com underline animado, botões com efeito shine, cards com glow gradiente, avatar flutuante com glow pulsante
 - **Performance** — CSS puro sem frameworks, IntersectionObserver para lazy reveal, scrollbar customizada
+- **Segurança** — Headers HTTP (Helmet), rate limiting no login, proteção contra path traversal, cookie httpOnly+sameSite, sessões limpas na inicialização
 - **Banco SQLite** — Portátil, sem necessidade de configurar banco externo
 
 ## Tecnologias
@@ -23,6 +24,7 @@ Site de portfólio profissional com painel administrativo. Construído com Node.
 - **Banco**: SQLite via sql.js
 - **Upload**: Multer
 - **Autenticação**: express-session + bcryptjs
+- **Segurança**: Helmet, express-rate-limit
 
 ## Como usar
 
@@ -36,14 +38,16 @@ npm start
 
 Servidor em `http://localhost:3000`.
 
-Painel admin: `http://localhost:3000/admin/login` (login: `admin` / `admin123`)
+Painel admin: `http://localhost:3000/admin/login`
 
 ## Configuração
 
-Crie um arquivo `.env` (opcional, valores padrão já funcionam):
+> **Importante**: Altere a senha padrão (`admin` / `admin123`) e o `SESSION_SECRET` antes de usar em produção.
+
+Crie um arquivo `.env`:
 
 ```env
-SESSION_SECRET=sua-chave-secreta
+SESSION_SECRET=uma-chave-forte-e-aleatoria
 PORT=3000
 ```
 
@@ -52,6 +56,19 @@ No painel admin em **Configurações**, é possível personalizar:
 - Links de redes sociais (GitHub, LinkedIn, WhatsApp)
 - Textos dos botões e seções
 - URLs para SEO (`site_url`, `site_image`)
+
+## Segurança
+
+- **Headers protegidos** via Helmet (X-Content-Type-Options, X-Frame-Options, etc.)
+- **Rate limiting** na rota de login (10 tentativas a cada 15 minutos)
+- **Cookie de sessão** configurado com `httpOnly` e `sameSite: 'lax'`
+- **Path traversal** prevenido na importação de projetos (sanitização de caminhos)
+- **Sessões expiradas** são limpas automaticamente na inicialização do servidor
+- **Consultas parametrizadas** (SQL injection prevenido)
+- **Templates escapados** (EJS usa `<%= %>` que escapa HTML por padrão)
+- **Error handler** global sem expor detalhes internos
+- **Logs** não exibem credenciais ou consultas SQL completas
+- **`.env` e `node_modules`** ignorados pelo Git
 
 ## Estrutura
 

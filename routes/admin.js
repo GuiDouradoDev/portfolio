@@ -4,7 +4,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
-const AdmZip = require('adm-zip');
 const { execSync } = require('child_process');
 const { analyzeProject } = require('../scripts/project-analyzer');
 
@@ -29,7 +28,14 @@ const upload = multer({
 
 const uploadFiles = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 50 * 1024 * 1024, files: 2000 }
+  limits: { fileSize: 50 * 1024 * 1024, files: 2000 },
+  fileFilter: (req, file, cb) => {
+    const normalized = path.normalize(file.originalname).replace(/\\/g, '/');
+    if (normalized === '.' || normalized.startsWith('..')) {
+      return cb(new Error('Nome de arquivo inválido'));
+    }
+    cb(null, true);
+  }
 });
 
 function requireAuth(req, res, next) {
@@ -91,7 +97,10 @@ function uploadMiddleware(req, res, next) {
 
 function processUploadedFiles(files, tempDir) {
   for (const file of files) {
-    const relativePath = decodeURIComponent(file.originalname);
+    const relativePath = path.normalize(decodeURIComponent(file.originalname)).replace(/\\/g, '/');
+    if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+      throw new Error('Caminho de arquivo inválido: ' + relativePath);
+    }
     const fullPath = path.join(tempDir, relativePath);
     const parentDir = path.dirname(fullPath);
     if (!fs.existsSync(parentDir)) fs.mkdirSync(parentDir, { recursive: true });
@@ -178,6 +187,10 @@ router.post('/projects/import/local', (req, res) => {
 
 router.post('/projects/import/confirm', (req, res) => {
   const { title, description, full_description, technologies, live_url, github_url, featured, temp_dir, create_github, github_repo_name, github_description, github_private } = req.body;
+
+  if (!temp_dir || !temp_dir.startsWith('uploads/temp/')) {
+    return res.redirect('/admin/projects');
+  }
 
   req.run(
     `INSERT INTO projects (title, description, full_description, technologies, image_url, live_url, github_url, featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,

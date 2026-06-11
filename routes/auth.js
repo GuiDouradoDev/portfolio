@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const rateLimit = require('express-rate-limit');
 
-router.post('/login', (req, res) => {
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Muitas tentativas. Tente novamente em 15 minutos.'
+});
+
+router.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
   const user = req.queryOne('SELECT * FROM users WHERE username = ?', [username]);
 

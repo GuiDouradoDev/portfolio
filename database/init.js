@@ -174,7 +174,7 @@ function queryAll(sql, params = []) {
     stmt.free();
     return rows;
   } catch (e) {
-    console.error('Query error:', sql, e);
+    console.error('Query error:', e.message);
     return [];
   }
 }
@@ -196,7 +196,7 @@ function run(sql, params = []) {
     }
     saveDb();
   } catch (e) {
-    console.error('Run error:', sql, e);
+    console.error('Run error:', e.message);
   }
 }
 
