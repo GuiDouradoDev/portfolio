@@ -22,9 +22,6 @@
             </select>
           </div>
           <div class="form-group">
-            <input type="number" name="level" placeholder="Nível (0-100)" min="0" max="100">
-          </div>
-          <div class="form-group">
             <input type="text" name="icon_class" placeholder="Icon class (ex: fab fa-react)">
           </div>
           <button type="submit" class="btn btn-primary">Adicionar</button>
@@ -40,7 +37,6 @@
             <tr>
               <th>Nome</th>
               <th>Categoria</th>
-              <th>Nível</th>
               <th>Ícone</th>
               <th>Ações</th>
             </tr>
@@ -61,7 +57,6 @@
                       <option value="devops" <%= s.category === 'devops' ? 'selected' : '' %>>DevOps</option>
                       <option value="other" <%= s.category === 'other' ? 'selected' : '' %>>Outro</option>
                     </select>
-                    <input type="number" name="level" value="<%= s.level %>" min="0" max="100" style="width:60px">
                     <input type="text" name="icon_class" value="<%= s.icon_class || '' %>" style="width:100px">
                     <button type="submit" class="btn btn-sm btn-edit"><i class="fas fa-check"></i></button>
                   </form>

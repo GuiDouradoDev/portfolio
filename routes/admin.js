@@ -309,16 +309,16 @@ router.get('/skills', (req, res) => {
 });
 
 router.post('/skills', (req, res) => {
-  const { name, category, level, icon_class } = req.body;
-  req.run('INSERT INTO skills (name, category, level, icon_class) VALUES (?, ?, ?, ?)',
-    [name, category, level || 0, icon_class]);
+  const { name, category, icon_class } = req.body;
+  req.run('INSERT INTO skills (name, category, icon_class) VALUES (?, ?, ?)',
+    [name, category, icon_class]);
   res.redirect('/admin/skills');
 });
 
 router.post('/skills/edit/:id', (req, res) => {
-  const { name, category, level, icon_class } = req.body;
-  req.run('UPDATE skills SET name = ?, category = ?, level = ?, icon_class = ? WHERE id = ?',
-    [name, category, level || 0, icon_class, req.params.id]);
+  const { name, category, icon_class } = req.body;
+  req.run('UPDATE skills SET name = ?, category = ?, icon_class = ? WHERE id = ?',
+    [name, category, icon_class, req.params.id]);
   res.redirect('/admin/skills');
 });
 
