@@ -31,11 +31,11 @@
       </div>
       <div class="about-content">
         <% if (settings.about_image) { %>
-          <div class="about-image">
+          <div class="about-image reveal-left">
             <img src="<%= settings.about_image %>" alt="Sobre">
           </div>
         <% } %>
-        <div class="about-text">
+        <div class="about-text reveal-right">
           <p><%= settings.about_content || '' %></p>
         </div>
       </div>
@@ -51,7 +51,7 @@
       <div class="projects-grid">
         <% if (projects && projects.length > 0) { %>
           <% projects.forEach(function(project) { %>
-            <div class="project-card">
+            <div class="project-card reveal-scale">
               <% if (project.featured) { %>
                 <span class="project-badge"><%= settings.project_badge_featured || 'Destaque' %></span>
               <% } %>
@@ -101,7 +101,7 @@
       <div class="skills-grid">
         <% if (skills && skills.length > 0) { %>
           <% skills.forEach(function(skill) { %>
-            <div class="skill-card">
+            <div class="skill-card reveal">
               <div class="skill-icon">
                 <i class="<%= skill.icon_class || 'fas fa-code' %>"></i>
               </div>
@@ -126,7 +126,7 @@
         <div class="section-line"></div>
       </div>
       <div class="contact-content">
-        <div class="contact-info">
+        <div class="contact-info reveal-left">
           <% if (settings.contact_email) { %>
             <div class="contact-item">
               <i class="fas fa-envelope"></i>
@@ -164,7 +164,7 @@
             </div>
           <% } %>
         </div>
-        <form class="contact-form" action="/contact" method="POST">
+        <form class="contact-form reveal-right" action="/contact" method="POST">
           <div class="form-group">
             <input type="text" name="name" placeholder="<%= settings.contact_form_name || 'Seu nome' %>" required>
           </div>

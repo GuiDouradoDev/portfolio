@@ -1,47 +1,75 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.querySelector('.nav-toggle');
-  const menu = document.querySelector('.nav-menu');
+document.addEventListener('DOMContentLoaded', function() {
+  // Theme toggle
+  var themeToggle = document.getElementById('theme-toggle');
+  var html = document.documentElement;
+  var storedTheme = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', storedTheme);
+  updateThemeIcon(storedTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function() {
+      var current = html.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateThemeIcon(next);
+    });
+  }
+
+  function updateThemeIcon(theme) {
+    if (!themeToggle) return;
+    var icon = themeToggle.querySelector('i');
+    if (icon) {
+      icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+    }
+  }
+
+  // Mobile nav toggle
+  var toggle = document.querySelector('.nav-toggle');
+  var menu = document.querySelector('.nav-menu');
 
   if (toggle && menu) {
-    toggle.addEventListener('click', () => {
+    toggle.addEventListener('click', function() {
       menu.classList.toggle('active');
       toggle.classList.toggle('active');
     });
 
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
+    document.querySelectorAll('.nav-link').forEach(function(link) {
+      link.addEventListener('click', function() {
         menu.classList.remove('active');
         toggle.classList.remove('active');
       });
     });
   }
 
-  const successMsg = new URLSearchParams(window.location.search).get('success');
-  const errorMsg = new URLSearchParams(window.location.search).get('error');
+  // Contact form alerts
+  var params = new URLSearchParams(window.location.search);
+  var successMsg = params.get('success');
+  var errorMsg = params.get('error');
 
   if (successMsg && document.querySelector('.contact-form')) {
-    const alert = document.createElement('div');
+    var alert = document.createElement('div');
     alert.className = 'alert alert-success';
     alert.textContent = decodeURIComponent(successMsg);
     document.querySelector('.contact-form').prepend(alert);
-    setTimeout(() => alert.remove(), 5000);
+    setTimeout(function() { alert.remove(); }, 5000);
     window.history.replaceState({}, '', window.location.pathname);
   }
 
   if (errorMsg && document.querySelector('.contact-form')) {
-    const alert = document.createElement('div');
+    var alert = document.createElement('div');
     alert.className = 'alert alert-error';
     alert.textContent = decodeURIComponent(errorMsg);
     document.querySelector('.contact-form').prepend(alert);
     window.history.replaceState({}, '', window.location.pathname);
   }
 
-  const scrollLinks = document.querySelectorAll('a[href^="#"]');
-  scrollLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const targetId = link.getAttribute('href');
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var targetId = link.getAttribute('href');
       if (targetId === '#') return;
-      const target = document.querySelector(targetId);
+      var target = document.querySelector(targetId);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth' });
@@ -49,25 +77,68 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  // Scroll reveal animations
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
+        entry.target.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, observerOptions);
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
-  document.querySelectorAll('.project-card, .skill-card, .section-header').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+
+  // Also observe project cards and skill cards that may not have the reveal class
+  document.querySelectorAll('.project-card, .skill-card').forEach(function(el) {
+    if (!el.classList.contains('reveal') && !el.classList.contains('reveal-scale')) {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
+    }
+  });
+
+  // Section headers
+  document.querySelectorAll('.section-header').forEach(function(el) {
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+  });
+
+  // Hero content
+  document.querySelectorAll('.hero-content > *').forEach(function(el, i) {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i * 0.2) + 's';
+    revealObserver.observe(el);
+    // Already visible, just trigger
+    el.classList.add('revealed');
+  });
+
+  // Skill bars animate when visible
+  var skillObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var bar = entry.target.querySelector('.skill-level');
+        if (bar) {
+          var width = bar.style.width || bar.getAttribute('data-width') || '0%';
+          bar.style.width = '0%';
+          setTimeout(function() {
+            bar.style.width = width;
+          }, 200);
+        }
+        skillObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  // Store original skill bar widths and observe
+  document.querySelectorAll('.skill-card').forEach(function(card) {
+    var bar = card.querySelector('.skill-level');
+    if (bar) {
+      var w = bar.style.width || '0%';
+      bar.setAttribute('data-width', w);
+      bar.style.width = '0%';
+    }
+    skillObserver.observe(card);
   });
 });

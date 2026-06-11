@@ -1,23 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="<%= settings.site_description || 'Portfolio' %>">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= settings.site_url || 'https://guilherme.dev' %>">
+  <meta property="og:title" content="<%= settings.site_title || 'Portfolio' %>">
+  <meta property="og:description" content="<%= settings.site_description || 'Portfolio profissional' %>">
+  <meta property="og:image" content="<%= settings.site_image || '/img/og-image.png' %>">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= settings.site_title || 'Portfolio' %>">
+  <meta name="twitter:description" content="<%= settings.site_description || 'Portfolio profissional' %>">
+  <meta name="twitter:image" content="<%= settings.site_image || '/img/og-image.png' %>">
+
   <title><%= settings.site_title || 'Portfolio' %></title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%236366f1'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='Inter, sans-serif' font-weight='800'%3EG%3C/text%3E%3C/svg%3E">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <nav class="navbar">
     <div class="container">
       <a href="/" class="nav-logo"><%= settings.hero_title || 'Portfolio' %></a>
-      <button class="nav-toggle" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
       <ul class="nav-menu">
         <li><a href="/#home" class="nav-link"><%= settings.nav_home || 'Início' %></a></li>
         <li><a href="/#about" class="nav-link"><%= settings.nav_about || 'Sobre' %></a></li>
@@ -25,5 +41,11 @@
         <li><a href="/#skills" class="nav-link"><%= settings.nav_skills || 'Habilidades' %></a></li>
         <li><a href="/#contact" class="nav-link"><%= settings.nav_contact || 'Contato' %></a></li>
       </ul>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button class="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
