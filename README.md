@@ -4,10 +4,13 @@ Site de portfólio profissional com painel administrativo. Construído com Node.
 
 ## Funcionalidades
 
-- **Site público** — Grade de projetos, seção de habilidades, formulário de contato, design responsivo
+- **Site público** — Grade de projetos com reveal animations, seção de habilidades, formulário de contato, design responsivo
 - **Painel admin** — Dashboard, CRUD de projetos, gerenciamento de habilidades, mensagens de contato
+- **Tema claro/escuro** — Alternador com persistência em localStorage
+- **SEO / Open Graph** — Meta tags OG e Twitter Card para compartilhamento em redes sociais
 - **Importação de projetos** — Upload de pasta via drag & drop ou caminho local com detecção automática de título, descrição e tecnologias (Node.js, Java, Python)
 - **Integração GitHub** — Crie repositórios diretamente do painel admin
+- **Animações** — Scroll reveal com fade e scale, barras de progresso animadas
 - **Banco SQLite** — Portátil, sem necessidade de configurar banco externo
 
 ## Tecnologias
@@ -30,7 +33,7 @@ npm start
 
 Servidor em `http://localhost:3000`.
 
-Painel admin: `http://localhost:3000/admin/login`
+Painel admin: `http://localhost:3000/admin/login` (login: `admin` / `admin123`)
 
 ## Configuração
 
@@ -40,6 +43,12 @@ Crie um arquivo `.env` (opcional, valores padrão já funcionam):
 SESSION_SECRET=sua-chave-secreta
 PORT=3000
 ```
+
+No painel admin em **Configurações**, é possível personalizar:
+- Título, subtítulo e descrição do site
+- Links de redes sociais (GitHub, LinkedIn, WhatsApp)
+- Textos dos botões e seções
+- URLs para SEO (`site_url`, `site_image`)
 
 ## Estrutura
 
@@ -53,8 +62,10 @@ portfolio/
 │   ├── admin/         # Views do painel admin
 │   └── partials/      # Componentes reutilizáveis
 ├── uploads/           # Imagens enviadas (gitignorado)
+├── .env               # Variáveis de ambiente (gitignorado)
 ├── server.js          # Entry point da aplicação
-└── stop.bat           # Script para parar o servidor (porta 3000)
+├── stop.bat           # Script para parar o servidor (porta 3000)
+└── start.bat          # Script para iniciar o servidor
 ```
 
 ## Licença
