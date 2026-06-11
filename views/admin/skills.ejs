@@ -50,12 +50,7 @@
               <tr>
                 <td><%= s.name %></td>
                 <td><span class="badge badge-category"><%= s.category %></span></td>
-                <td>
-                  <div class="skill-bar-mini">
-                    <div style="width:<%= s.level %>%"></div>
-                  </div>
-                  <%= s.level %>%
-                </td>
+                <td></td>
                 <td><i class="<%= s.icon_class || 'fas fa-code' %>"></i></td>
                 <td class="actions">
                   <form action="/admin/skills/edit/<%= s.id %>" method="POST" class="inline-form" style="display:inline-flex;gap:8px;flex-wrap:wrap">

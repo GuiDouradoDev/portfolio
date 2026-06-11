@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
     revealObserver.observe(el);
   });
 
-  // Also observe project cards and skill cards that may not have the reveal class
+  // Also observe project cards and skill cards
   document.querySelectorAll('.project-card, .skill-card').forEach(function(el) {
     if (!el.classList.contains('reveal') && !el.classList.contains('reveal-scale')) {
       el.classList.add('reveal');
@@ -110,35 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
     el.classList.add('reveal');
     el.style.transitionDelay = (i * 0.2) + 's';
     revealObserver.observe(el);
-    // Already visible, just trigger
     el.classList.add('revealed');
-  });
-
-  // Skill bars animate when visible
-  var skillObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        var bar = entry.target.querySelector('.skill-level');
-        if (bar) {
-          var width = bar.style.width || bar.getAttribute('data-width') || '0%';
-          bar.style.width = '0%';
-          setTimeout(function() {
-            bar.style.width = width;
-          }, 200);
-        }
-        skillObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  // Store original skill bar widths and observe
-  document.querySelectorAll('.skill-card').forEach(function(card) {
-    var bar = card.querySelector('.skill-level');
-    if (bar) {
-      var w = bar.style.width || '0%';
-      bar.setAttribute('data-width', w);
-      bar.style.width = '0%';
-    }
-    skillObserver.observe(card);
   });
 });

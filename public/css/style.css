@@ -463,28 +463,6 @@ body {
 .skill-card h4 {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.skill-bar {
-  height: 6px;
-  background: var(--bg-card-hover);
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.skill-level {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  border-radius: 3px;
-  transition: width 1s ease;
-}
-
-.skill-percent {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 500;
 }
 
 /* ============ CONTACT ============ */
@@ -1048,24 +1026,6 @@ body {
   width: 18px;
   height: 18px;
   accent-color: var(--primary);
-}
-
-/* ============ SKILL BAR MINI ============ */
-.skill-bar-mini {
-  width: 80px;
-  height: 6px;
-  background: var(--bg-card-hover);
-  border-radius: 3px;
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 8px;
-}
-
-.skill-bar-mini div {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  border-radius: 3px;
 }
 
 /* ============ DROPZONE ============ */
@@ -1684,11 +1644,6 @@ body {
 .skill-card:nth-child(6) { transition-delay: 0.25s; }
 .skill-card:nth-child(7) { transition-delay: 0.3s; }
 .skill-card:nth-child(8) { transition-delay: 0.35s; }
-
-/* Skill bar animation */
-[data-theme="light"] .skill-level {
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-}
 
 /* Smooth transition for theme changes */
 body, .navbar, .project-card, .skill-card, .btn, .form-group input,
