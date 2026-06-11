@@ -1,62 +1,62 @@
 # Portfolio
 
-Professional portfolio website with admin panel. Built with Node.js, Express, and SQLite.
+Site de portfólio profissional com painel administrativo. Construído com Node.js, Express e SQLite.
 
-## Features
+## Funcionalidades
 
-- **Public site** — Projects grid, skills section, contact form, responsive design
-- **Admin panel** — Dashboard, project CRUD, skill management, contact messages
-- **Project import** — Drag & drop folder upload or local path import with auto-detection of title, description, technologies (Node.js, Java, Python)
-- **GitHub integration** — Create repositories directly from the admin panel
-- **SQLite database** — Portable, no external database setup required
+- **Site público** — Grade de projetos, seção de habilidades, formulário de contato, design responsivo
+- **Painel admin** — Dashboard, CRUD de projetos, gerenciamento de habilidades, mensagens de contato
+- **Importação de projetos** — Upload de pasta via drag & drop ou caminho local com detecção automática de título, descrição e tecnologias (Node.js, Java, Python)
+- **Integração GitHub** — Crie repositórios diretamente do painel admin
+- **Banco SQLite** — Portátil, sem necessidade de configurar banco externo
 
-## Tech Stack
+## Tecnologias
 
 - **Backend**: Node.js, Express
-- **Frontend**: EJS templates, vanilla CSS/JS
-- **Database**: SQLite via sql.js
+- **Frontend**: EJS templates, CSS/JS puro
+- **Banco**: SQLite via sql.js
 - **Upload**: Multer
-- **Auth**: express-session + bcryptjs
+- **Autenticação**: express-session + bcryptjs
 
-## Getting Started
+## Como usar
 
 ```bash
-# Install dependencies
+# Instalar dependências
 npm install
 
-# Start the server
+# Iniciar servidor
 npm start
 ```
 
-Server runs at `http://localhost:3000`.
+Servidor em `http://localhost:3000`.
 
-Admin panel: `http://localhost:3000/admin/login`
+Painel admin: `http://localhost:3000/admin/login`
 
-## Configuration
+## Configuração
 
-Create a `.env` file (optional, defaults work out of the box):
+Crie um arquivo `.env` (opcional, valores padrão já funcionam):
 
 ```env
-SESSION_SECRET=your-secret-key
+SESSION_SECRET=sua-chave-secreta
 PORT=3000
 ```
 
-## Project Structure
+## Estrutura
 
 ```
 portfolio/
-├── database/          # SQLite DB + initialization
-├── public/            # Static assets (CSS, JS)
-├── routes/            # Express route handlers
-├── scripts/           # Project analyzer, GitHub import
-├── views/             # EJS templates
-│   ├── admin/         # Admin panel views
-│   └── partials/      # Reusable template parts
-├── uploads/           # Uploaded images (gitignored)
-├── server.js          # App entry point
-└── stop.bat           # Quick stop script (port 3000)
+├── database/          # Banco SQLite + inicialização
+├── public/            # Assets estáticos (CSS, JS)
+├── routes/            # Handlers de rotas Express
+├── scripts/           # Analisador de projetos, importação GitHub
+├── views/             # Templates EJS
+│   ├── admin/         # Views do painel admin
+│   └── partials/      # Componentes reutilizáveis
+├── uploads/           # Imagens enviadas (gitignorado)
+├── server.js          # Entry point da aplicação
+└── stop.bat           # Script para parar o servidor (porta 3000)
 ```
 
-## License
+## Licença
 
 MIT
