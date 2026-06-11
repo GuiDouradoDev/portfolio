@@ -4,13 +4,16 @@ Site de portfólio profissional com painel administrativo. Construído com Node.
 
 ## Funcionalidades
 
-- **Site público** — Grade de projetos com reveal animations, seção de habilidades, formulário de contato, design responsivo
+- **Site público** — Design moderno com cards em glassmorphism, animações de entrada, gradientes, orbes animadas no hero, grid decorativo
+- **Tema claro/escuro** — Alternador com animação suave e persistência em localStorage
 - **Painel admin** — Dashboard, CRUD de projetos, gerenciamento de habilidades, mensagens de contato
-- **Tema claro/escuro** — Alternador com persistência em localStorage
-- **SEO / Open Graph** — Meta tags OG e Twitter Card para compartilhamento em redes sociais
 - **Importação de projetos** — Upload de pasta via drag & drop ou caminho local com detecção automática de título, descrição e tecnologias (Node.js, Java, Python)
 - **Integração GitHub** — Crie repositórios diretamente do painel admin
-- **Animações** — Scroll reveal com fade e scale, barras de progresso animadas
+- **SEO / Open Graph** — Meta tags OG e Twitter Card para compartilhamento em redes sociais
+- **Responsivo** — Layout adaptável para mobile, tablet e desktop
+- **Animações** — Scroll reveal com fade, scale e direção, efeitos hover com glow e shine, barras animadas, stagger delays
+- **Micro-interações** — Navbar com underline animado, botões com efeito shine, cards com glow gradiente, avatar flutuante com glow pulsante
+- **Performance** — CSS puro sem frameworks, IntersectionObserver para lazy reveal, scrollbar customizada
 - **Banco SQLite** — Portátil, sem necessidade de configurar banco externo
 
 ## Tecnologias
