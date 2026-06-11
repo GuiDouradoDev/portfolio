@@ -1,0 +1,216 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-header">
+    <h1>Configurações do Site</h1>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <form action="/admin/settings" method="POST" class="admin-form">
+        <h3 class="form-section-title">Navegação</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nav_home">Home</label>
+            <input type="text" name="nav_home" id="nav_home" value="<%= settings.find(s => s.key === 'nav_home')?.value || 'Início' %>">
+          </div>
+          <div class="form-group">
+            <label for="nav_about">Sobre</label>
+            <input type="text" name="nav_about" id="nav_about" value="<%= settings.find(s => s.key === 'nav_about')?.value || 'Sobre' %>">
+          </div>
+          <div class="form-group">
+            <label for="nav_projects">Projetos</label>
+            <input type="text" name="nav_projects" id="nav_projects" value="<%= settings.find(s => s.key === 'nav_projects')?.value || 'Projetos' %>">
+          </div>
+          <div class="form-group">
+            <label for="nav_skills">Habilidades</label>
+            <input type="text" name="nav_skills" id="nav_skills" value="<%= settings.find(s => s.key === 'nav_skills')?.value || 'Habilidades' %>">
+          </div>
+          <div class="form-group">
+            <label for="nav_contact">Contato</label>
+            <input type="text" name="nav_contact" id="nav_contact" value="<%= settings.find(s => s.key === 'nav_contact')?.value || 'Contato' %>">
+          </div>
+        </div>
+
+        <h3 class="form-section-title">Hero</h3>
+        <div class="form-group">
+          <label for="hero_greeting">Saudação</label>
+          <input type="text" name="hero_greeting" id="hero_greeting" value="<%= settings.find(s => s.key === 'hero_greeting')?.value || 'Olá, eu sou' %>">
+        </div>
+        <div class="form-group">
+          <label for="hero_title">Nome/Título Principal</label>
+          <input type="text" name="hero_title" id="hero_title" value="<%= settings.find(s => s.key === 'hero_title')?.value || '' %>">
+        </div>
+        <div class="form-group">
+          <label for="hero_subtitle">Subtítulo</label>
+          <input type="text" name="hero_subtitle" id="hero_subtitle" value="<%= settings.find(s => s.key === 'hero_subtitle')?.value || '' %>">
+        </div>
+        <div class="form-group">
+          <label for="hero_description">Descrição</label>
+          <textarea name="hero_description" id="hero_description" rows="3"><%= settings.find(s => s.key === 'hero_description')?.value || '' %></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hero_btn_projects">Botão "Projetos"</label>
+            <input type="text" name="hero_btn_projects" id="hero_btn_projects" value="<%= settings.find(s => s.key === 'hero_btn_projects')?.value || 'Ver Projetos' %>">
+          </div>
+          <div class="form-group">
+            <label for="hero_btn_contact">Botão "Contato"</label>
+            <input type="text" name="hero_btn_contact" id="hero_btn_contact" value="<%= settings.find(s => s.key === 'hero_btn_contact')?.value || 'Entrar em Contato' %>">
+          </div>
+        </div>
+
+        <h3 class="form-section-title">Sobre Mim</h3>
+        <div class="form-group">
+          <label for="about_title">Título da Seção</label>
+          <input type="text" name="about_title" id="about_title" value="<%= settings.find(s => s.key === 'about_title')?.value || '' %>">
+        </div>
+        <div class="form-group">
+          <label for="about_content">Conteúdo</label>
+          <textarea name="about_content" id="about_content" rows="6"><%= settings.find(s => s.key === 'about_content')?.value || '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="about_image">URL da Imagem</label>
+          <input type="text" name="about_image" id="about_image" value="<%= settings.find(s => s.key === 'about_image')?.value || '' %>">
+        </div>
+
+        <h3 class="form-section-title">Seções</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="section_projects_title">Título "Projetos"</label>
+            <input type="text" name="section_projects_title" id="section_projects_title" value="<%= settings.find(s => s.key === 'section_projects_title')?.value || 'Projetos' %>">
+          </div>
+          <div class="form-group">
+            <label for="section_skills_title">Título "Habilidades"</label>
+            <input type="text" name="section_skills_title" id="section_skills_title" value="<%= settings.find(s => s.key === 'section_skills_title')?.value || 'Habilidades' %>">
+          </div>
+          <div class="form-group">
+            <label for="section_contact_title">Título "Contato"</label>
+            <input type="text" name="section_contact_title" id="section_contact_title" value="<%= settings.find(s => s.key === 'section_contact_title')?.value || 'Contato' %>">
+          </div>
+        </div>
+
+        <h3 class="form-section-title">Cards de Projetos</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="project_badge_featured">Badge "Destaque"</label>
+            <input type="text" name="project_badge_featured" id="project_badge_featured" value="<%= settings.find(s => s.key === 'project_badge_featured')?.value || 'Destaque' %>">
+          </div>
+          <div class="form-group">
+            <label for="project_btn_demo">Botão "Demo"</label>
+            <input type="text" name="project_btn_demo" id="project_btn_demo" value="<%= settings.find(s => s.key === 'project_btn_demo')?.value || 'Demo' %>">
+          </div>
+          <div class="form-group">
+            <label for="project_btn_code">Botão "Código"</label>
+            <input type="text" name="project_btn_code" id="project_btn_code" value="<%= settings.find(s => s.key === 'project_btn_code')?.value || 'Código' %>">
+          </div>
+          <div class="form-group">
+            <label for="project_empty">Texto vazio</label>
+            <input type="text" name="project_empty" id="project_empty" value="<%= settings.find(s => s.key === 'project_empty')?.value || 'Nenhum projeto cadastrado ainda.' %>">
+          </div>
+        </div>
+
+        <h3 class="form-section-title">Habilidades</h3>
+        <div class="form-group">
+          <label for="skills_empty">Texto vazio</label>
+          <input type="text" name="skills_empty" id="skills_empty" value="<%= settings.find(s => s.key === 'skills_empty')?.value || 'Nenhuma habilidade cadastrada ainda.' %>">
+        </div>
+
+        <h3 class="form-section-title">Contato (Labels)</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contact_label_email">Label "Email"</label>
+            <input type="text" name="contact_label_email" id="contact_label_email" value="<%= settings.find(s => s.key === 'contact_label_email')?.value || 'Email' %>">
+          </div>
+          <div class="form-group">
+            <label for="contact_label_whatsapp">Label "WhatsApp"</label>
+            <input type="text" name="contact_label_whatsapp" id="contact_label_whatsapp" value="<%= settings.find(s => s.key === 'contact_label_whatsapp')?.value || 'WhatsApp' %>">
+          </div>
+          <div class="form-group">
+            <label for="contact_label_github">Label "GitHub"</label>
+            <input type="text" name="contact_label_github" id="contact_label_github" value="<%= settings.find(s => s.key === 'contact_label_github')?.value || 'GitHub' %>">
+          </div>
+          <div class="form-group">
+            <label for="contact_label_linkedin">Label "LinkedIn"</label>
+            <input type="text" name="contact_label_linkedin" id="contact_label_linkedin" value="<%= settings.find(s => s.key === 'contact_label_linkedin')?.value || 'LinkedIn' %>">
+          </div>
+        </div>
+
+        <h3 class="form-section-title">Formulário de Contato</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contact_form_name">Placeholder "Nome"</label>
+            <input type="text" name="contact_form_name" id="contact_form_name" value="<%= settings.find(s => s.key === 'contact_form_name')?.value || 'Seu nome' %>">
+          </div>
+          <div class="form-group">
+            <label for="contact_form_email">Placeholder "Email"</label>
+            <input type="text" name="contact_form_email" id="contact_form_email" value="<%= settings.find(s => s.key === 'contact_form_email')?.value || 'Seu email' %>">
+          </div>
+          <div class="form-group">
+            <label for="contact_form_subject">Placeholder "Assunto"</label>
+            <input type="text" name="contact_form_subject" id="contact_form_subject" value="<%= settings.find(s => s.key === 'contact_form_subject')?.value || 'Assunto' %>">
+          </div>
+          <div class="form-group">
+            <label for="contact_form_message">Placeholder "Mensagem"</label>
+            <input type="text" name="contact_form_message" id="contact_form_message" value="<%= settings.find(s => s.key === 'contact_form_message')?.value || 'Sua mensagem' %>">
+          </div>
+          <div class="form-group">
+            <label for="contact_form_submit">Botão "Enviar"</label>
+            <input type="text" name="contact_form_submit" id="contact_form_submit" value="<%= settings.find(s => s.key === 'contact_form_submit')?.value || 'Enviar Mensagem' %>">
+          </div>
+        </div>
+
+        <h3 class="form-section-title">Informações de Contato</h3>
+        <div class="form-group">
+          <label for="contact_email">Email</label>
+          <input type="email" name="contact_email" id="contact_email" value="<%= settings.find(s => s.key === 'contact_email')?.value || '' %>">
+        </div>
+        <div class="form-group">
+          <label for="contact_phone">WhatsApp (com DDI, ex: 5511999999999)</label>
+          <input type="text" name="contact_phone" id="contact_phone" value="<%= settings.find(s => s.key === 'contact_phone')?.value || '' %>" placeholder="5511999999999">
+        </div>
+        <div class="form-group">
+          <label for="contact_github">GitHub</label>
+          <input type="url" name="contact_github" id="contact_github" value="<%= settings.find(s => s.key === 'contact_github')?.value || '' %>">
+        </div>
+        <div class="form-group">
+          <label for="contact_linkedin">LinkedIn</label>
+          <input type="url" name="contact_linkedin" id="contact_linkedin" value="<%= settings.find(s => s.key === 'contact_linkedin')?.value || '' %>">
+        </div>
+
+        <h3 class="form-section-title">Página 404</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="error_404_title">Título</label>
+            <input type="text" name="error_404_title" id="error_404_title" value="<%= settings.find(s => s.key === 'error_404_title')?.value || '404' %>">
+          </div>
+          <div class="form-group">
+            <label for="error_404_message">Mensagem</label>
+            <input type="text" name="error_404_message" id="error_404_message" value="<%= settings.find(s => s.key === 'error_404_message')?.value || 'Página não encontrada' %>">
+          </div>
+          <div class="form-group">
+            <label for="error_404_button">Texto do Botão</label>
+            <input type="text" name="error_404_button" id="error_404_button" value="<%= settings.find(s => s.key === 'error_404_button')?.value || 'Voltar ao início' %>">
+          </div>
+        </div>
+
+        <h3 class="form-section-title">Rodapé e SEO</h3>
+        <div class="form-group">
+          <label for="footer_text">Texto do Rodapé</label>
+          <input type="text" name="footer_text" id="footer_text" value="<%= settings.find(s => s.key === 'footer_text')?.value || '' %>">
+        </div>
+        <div class="form-group">
+          <label for="site_title">Título do Site (SEO)</label>
+          <input type="text" name="site_title" id="site_title" value="<%= settings.find(s => s.key === 'site_title')?.value || '' %>">
+        </div>
+        <div class="form-group">
+          <label for="site_description">Descrição do Site (SEO)</label>
+          <textarea name="site_description" id="site_description" rows="2"><%= settings.find(s => s.key === 'site_description')?.value || '' %></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Configurações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

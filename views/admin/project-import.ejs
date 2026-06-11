@@ -1,0 +1,357 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-header">
+    <h1>Importar Projeto</h1>
+    <a href="/admin/projects" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Voltar</a>
+  </div>
+
+  <% if (error) { %>
+    <div class="alert alert-error"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+  <% } %>
+
+  <% if (result) { %>
+    <div class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-check-circle" style="color: var(--success);"></i> Projeto Detectado</h2>
+      </div>
+      <div class="card-body">
+        <form action="/admin/projects/import/confirm" method="POST" class="admin-form">
+          <div class="import-preview">
+            <div class="import-preview-icon">
+              <i class="fas fa-folder-open"></i>
+            </div>
+            <div class="import-preview-info">
+              <h3><%= result.title %></h3>
+              <p><%= result.description || 'Sem descrição' %></p>
+              <% if (result.technologies) { %>
+                <div class="import-techs">
+                  <% result.technologies.split(', ').filter(Boolean).forEach(function(t) { %>
+                    <span class="badge badge-category"><%= t %></span>
+                  <% }); %>
+                </div>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="form-section-title">Dados do Projeto</div>
+
+          <input type="hidden" name="temp_dir" value="<%= result.temp_dir %>">
+
+          <div class="form-group">
+            <label for="title">Título *</label>
+            <input type="text" id="title" name="title" value="<%= result.title %>" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Descrição Curta *</label>
+            <textarea id="description" name="description" rows="3" required><%= result.description %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="full_description">Descrição Completa</label>
+            <textarea id="full_description" name="full_description" rows="8"><%= result.full_description %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="technologies">Tecnologias (separadas por vírgula)</label>
+            <input type="text" id="technologies" name="technologies" value="<%= result.technologies %>" placeholder="React, Node.js, PostgreSQL">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="live_url">URL do Projeto (Live)</label>
+              <input type="url" id="live_url" name="live_url" value="<%= result.live_url %>">
+            </div>
+            <div class="form-group">
+              <label for="github_url">URL do GitHub</label>
+              <input type="url" id="github_url" name="github_url" value="<%= result.github_url %>">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="featured" value="1">
+              Projeto em Destaque
+            </label>
+          </div>
+
+          <div class="form-section-title">GitHub</div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="create_github" value="1" id="create_github" <%= result.github_url ? 'disabled' : '' %>>
+              Criar repositório no GitHub e fazer push
+            </label>
+            <% if (result.github_url) { %>
+              <p class="form-help">Este projeto já possui uma URL do GitHub. Desative-a se quiser criar um novo repositório.</p>
+            <% } %>
+          </div>
+          <div id="github-options" class="github-options hidden">
+            <div class="form-group">
+              <label for="github_repo_name">Nome do Repositório</label>
+              <input type="text" id="github_repo_name" name="github_repo_name" value="<%= result.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') %>">
+            </div>
+            <div class="form-group">
+              <label for="github_description">Descrição do Repositório</label>
+              <input type="text" id="github_description" name="github_description" value="<%= result.description %>">
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="github_private" value="1">
+                Repositório Privado
+              </label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Importar Projeto
+            </button>
+            <a href="/admin/projects/new" class="btn btn-outline" style="margin-left: 8px;">
+              <i class="fas fa-times"></i> Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  <% } else { %>
+    <div class="import-tabs">
+      <button type="button" class="import-tab active" data-tab="upload">
+        <i class="fas fa-cloud-upload-alt"></i> Upload
+      </button>
+      <button type="button" class="import-tab" data-tab="local">
+        <i class="fas fa-folder"></i> Caminho Local
+      </button>
+    </div>
+
+    <div class="import-panel active" id="panel-upload">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fas fa-upload"></i> Arraste a pasta do projeto</h2>
+        </div>
+        <div class="card-body">
+          <p class="import-description">
+            Arraste a pasta do seu projeto diretamente para a área abaixo.
+            O sistema irá detectar automaticamente o nome, descrição, tecnologias e README.
+          </p>
+          <div class="dropzone" id="dropzone">
+            <div class="dropzone-content" id="dropzone-content">
+              <i class="fas fa-cloud-upload-alt dropzone-icon"></i>
+              <p class="dropzone-text">Arraste a pasta do projeto aqui</p>
+              <p class="dropzone-hint">ou clique para selecionar uma pasta</p>
+            </div>
+            <div class="dropzone-loading hidden" id="dropzone-loading">
+              <div class="spinner"></div>
+              <p class="dropzone-text">Lendo arquivos...</p>
+              <p class="dropzone-hint" id="file-count">0 arquivos encontrados</p>
+            </div>
+            <input type="file" id="folder-input" webkitdirectory multiple class="hidden">
+          </div>
+          <div class="import-info-grid" style="margin-top: 20px;">
+            <div class="import-info-item">
+              <i class="fas fa-tag"></i>
+              <div>
+                <strong>Título</strong>
+                <span>Do nome no package.json ou pom.xml</span>
+              </div>
+            </div>
+            <div class="import-info-item">
+              <i class="fas fa-align-left"></i>
+              <div>
+                <strong>Descrição</strong>
+                <span>Do package.json, pom.xml ou README.md</span>
+              </div>
+            </div>
+            <div class="import-info-item">
+              <i class="fas fa-book"></i>
+              <div>
+                <strong>Descrição Completa</strong>
+                <span>Do conteúdo do README.md</span>
+              </div>
+            </div>
+            <div class="import-info-item">
+              <i class="fas fa-cogs"></i>
+              <div>
+                <strong>Tecnologias</strong>
+                <span>Detectadas das dependências</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="import-panel" id="panel-local">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fas fa-folder-open"></i> Importar do Servidor</h2>
+        </div>
+        <div class="card-body">
+          <p class="import-description">
+            Informe o caminho da pasta do projeto no servidor.
+            Pastas como <code>.git</code>, <code>node_modules</code>, <code>.jdk</code>, <code>target</code> serão ignoradas.
+          </p>
+          <form action="/admin/projects/import/local" method="POST" class="admin-form">
+            <div class="form-group">
+              <label for="local_path">Caminho da Pasta</label>
+              <input type="text" id="local_path" name="local_path" value="<%= typeof local_path_hint !== 'undefined' ? local_path_hint : '' %>" placeholder="C:\Users\guilh\Documents\Projetos\..." style="font-family: monospace;">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Analisar Projeto
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<script>
+(function() {
+  // Tabs
+  const tabs = document.querySelectorAll('.import-tab');
+  const panels = {
+    upload: document.getElementById('panel-upload'),
+    local: document.getElementById('panel-local'),
+  };
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      Object.keys(panels).forEach(function(key) {
+        panels[key].classList.toggle('active', key === tab.dataset.tab);
+      });
+    });
+  });
+
+  const dropzone = document.getElementById('dropzone');
+  const content = document.getElementById('dropzone-content');
+  const loading = document.getElementById('dropzone-loading');
+  const fileCount = document.getElementById('file-count');
+  const folderInput = document.getElementById('folder-input');
+
+  if (!dropzone) return;
+
+  function setLoading(text) {
+    content.classList.add('hidden');
+    loading.classList.remove('hidden');
+    fileCount.textContent = text || 'Processando...';
+  }
+
+  function setReady() {
+    content.classList.remove('hidden');
+    loading.classList.add('hidden');
+  }
+
+  function doUpload(files) {
+    var formData = new FormData();
+    for (var i = 0; i < files.length; i++) {
+      var path = files[i].webkitRelativePath || files[i].relativePath || files[i].name;
+      formData.append('files', files[i], encodeURIComponent(path));
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/admin/projects/import', true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        document.open();
+        document.write(xhr.responseText);
+        document.close();
+      } else {
+        setReady();
+        var m = xhr.responseText.match(/class="alert alert-error"[^>]*>([\s\S]*?)<\/div>/);
+        alert(m ? m[1].trim() : 'Erro (status ' + xhr.status + ')');
+      }
+    };
+    xhr.onerror = function() { setReady(); alert('Erro de conexão'); };
+    xhr.timeout = 120000;
+    xhr.ontimeout = function() { setReady(); alert('Tempo limite excedido'); };
+    xhr.send(formData);
+  }
+
+  function readFolder(entry, basePath, callback) {
+    var ignored = ['node_modules', '.git', '.next', 'dist', 'build', '.cache', 'target', '__pycache__', '.vscode', '.idea'];
+    if (entry.isDirectory && ignored.indexOf(entry.name) !== -1) { callback([]); return; }
+
+    if (entry.isDirectory) {
+      var reader = entry.createReader();
+      var allEntries = [];
+      (function readBatch() {
+        reader.readEntries(function(batch) {
+          if (batch.length === 0) {
+            var results = [];
+            var pending = allEntries.length;
+            if (pending === 0) { callback(results); return; }
+            allEntries.forEach(function(child) {
+              readFolder(child, (basePath ? basePath + '/' : '') + entry.name, function(files) {
+                files.forEach(function(f) { results.push(f); });
+                pending--;
+                if (pending === 0) callback(results);
+              });
+            });
+          } else {
+            for (var i = 0; i < batch.length; i++) allEntries.push(batch[i]);
+            readBatch();
+          }
+        }, function() { callback([]); });
+      })();
+    } else {
+      entry.file(function(file) {
+        file.relativePath = (basePath ? basePath + '/' : '') + entry.name;
+        callback([file]);
+      });
+    }
+  }
+
+  // Click: open folder picker
+  dropzone.addEventListener('click', function() { folderInput.click(); });
+
+  // Folder picker
+  folderInput.addEventListener('change', function() {
+    if (!this.files || this.files.length === 0) return;
+    setLoading('Enviando ' + this.files.length + ' arquivos...');
+    doUpload(this.files);
+  });
+
+  // Drag and drop
+  dropzone.addEventListener('dragover', function(e) { e.preventDefault(); e.stopPropagation(); dropzone.classList.add('drag-over'); });
+  dropzone.addEventListener('dragleave', function(e) { e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('drag-over'); });
+
+  dropzone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dropzone.classList.remove('drag-over');
+
+    // Try webkitGetAsEntry (Chrome folder drop)
+    var items = e.dataTransfer.items;
+    if (items && items.length > 0) {
+      var entry = items[0].webkitGetAsEntry ? items[0].webkitGetAsEntry() : null;
+      if (entry && entry.isDirectory) {
+        setLoading('Lendo pasta...');
+        readFolder(entry, '', function(files) {
+          if (files.length === 0) { setReady(); alert('Nenhum arquivo encontrado'); return; }
+          setLoading('Enviando ' + files.length + ' arquivos...');
+          doUpload(files);
+        });
+        return;
+      }
+    }
+
+    // Fallback: use dataTransfer.files
+    var files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      setLoading('Enviando ' + files.length + ' arquivos...');
+      doUpload(files);
+      return;
+    }
+
+    alert('Nenhum arquivo encontrado. Arraste uma pasta.');
+  });
+
+  // GitHub toggle
+  const ghCheckbox = document.getElementById('create_github');
+  const ghOptions = document.getElementById('github-options');
+  if (ghCheckbox && ghOptions) {
+    ghCheckbox.addEventListener('change', function() {
+      ghOptions.classList.toggle('hidden', !this.checked);
+    });
+  }
+})();
+</script>
+<%- include('../partials/admin-footer') %>

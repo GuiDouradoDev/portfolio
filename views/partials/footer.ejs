@@ -1,0 +1,30 @@
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <p><%= settings.footer_text || '© 2026. Todos os direitos reservados.' %></p>
+        </div>
+        <div class="footer-social">
+          <% if (settings.contact_github) { %>
+            <a href="<%= settings.contact_github %>" target="_blank" rel="noopener" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          <% } %>
+          <% if (settings.contact_linkedin) { %>
+            <a href="<%= settings.contact_linkedin %>" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          <% } %>
+          <% if (settings.contact_email) { %>
+            <a href="mailto:<%= settings.contact_email %>" aria-label="Email">
+              <i class="fas fa-envelope"></i>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

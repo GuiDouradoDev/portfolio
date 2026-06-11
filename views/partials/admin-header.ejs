@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - <%= settings.site_title || 'Portfolio' %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="admin-page">
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <i class="fas fa-crown"></i>
+        <span>Painel Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/admin" class="<%= path === '/admin' ? 'active' : '' %>">
+          <i class="fas fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="/admin/projects" class="<%= path.startsWith('/admin/projects') ? 'active' : '' %>">
+          <i class="fas fa-project-diagram"></i> Projetos
+        </a>
+        <a href="/admin/skills" class="<%= path === '/admin/skills' ? 'active' : '' %>">
+          <i class="fas fa-code"></i> Habilidades
+        </a>
+        <a href="/admin/settings" class="<%= path === '/admin/settings' ? 'active' : '' %>">
+          <i class="fas fa-cog"></i> Configurações
+        </a>
+        <a href="/admin/messages" class="<%= path === '/admin/messages' || path.startsWith('/admin/messages/') ? 'active' : '' %>">
+          <i class="fas fa-envelope"></i> Mensagens
+        </a>
+        <a href="/admin/change-password" class="<%= path === '/admin/change-password' ? 'active' : '' %>">
+          <i class="fas fa-key"></i> Alterar Senha
+        </a>
+        <div class="sidebar-divider"></div>
+        <a href="/" target="_blank">
+          <i class="fas fa-external-link-alt"></i> Ver Site
+        </a>
+        <a href="/auth/logout">
+          <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+      </nav>
+    </aside>
+    <main class="admin-main">

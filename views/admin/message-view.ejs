@@ -1,0 +1,37 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-header">
+    <h1>Mensagem</h1>
+    <a href="/admin/messages" class="btn btn-outline">
+      <i class="fas fa-arrow-left"></i> Voltar
+    </a>
+  </div>
+  <div class="card message-detail-card">
+    <div class="card-body">
+      <div class="message-detail-header">
+        <div class="message-detail-sender">
+          <div class="message-detail-avatar">
+            <%= message.name.charAt(0).toUpperCase() %>
+          </div>
+          <div>
+            <h2><%= message.name %></h2>
+            <a href="mailto:<%= message.email %>"><%= message.email %></a>
+          </div>
+        </div>
+        <span class="badge <%= message.read ? 'badge-read' : 'badge-unread' %>">
+          <%= message.read ? 'Lida' : 'Não lida' %>
+        </span>
+      </div>
+      <div class="message-detail-meta">
+        <span><i class="far fa-calendar"></i> <%= new Date(message.created_at).toLocaleString('pt-BR') %></span>
+        <% if (message.subject) { %>
+          <span><i class="fas fa-tag"></i> <%= message.subject %></span>
+        <% } %>
+      </div>
+      <div class="message-detail-body">
+        <%= message.message %>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

@@ -1,0 +1,67 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-header">
+    <h1><%= project ? 'Editar Projeto' : 'Novo Projeto' %></h1>
+    <a href="/admin/projects" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Voltar</a>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <form action="<%= project ? '/admin/projects/edit/' + project.id : '/admin/projects' %>" method="POST" enctype="multipart/form-data" class="admin-form">
+        <div class="form-group">
+          <label for="title">Título *</label>
+          <input type="text" id="title" name="title" value="<%= project ? project.title : '' %>" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Descrição Curta *</label>
+          <textarea id="description" name="description" rows="3" required><%= project ? project.description : '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="full_description">Descrição Completa</label>
+          <textarea id="full_description" name="full_description" rows="8"><%= project ? project.full_description : '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="technologies">Tecnologias (separadas por vírgula)</label>
+          <input type="text" id="technologies" name="technologies" value="<%= project ? project.technologies : '' %>" placeholder="React, Node.js, PostgreSQL">
+        </div>
+        <div class="form-group">
+          <label for="image">Imagem</label>
+          <% if (project && project.image_url) { %>
+            <div class="current-image">
+              <img src="<%= project.image_url %>" alt="Current" style="max-width:200px;margin-bottom:10px">
+            </div>
+          <% } %>
+          <input type="file" id="image" name="image" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="live_url">URL do Projeto (Live)</label>
+          <input type="url" id="live_url" name="live_url" value="<%= project ? project.live_url : '' %>">
+        </div>
+        <input type="hidden" name="github_url" value="<%= project ? project.github_url : '' %>">
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="featured" value="1" <%= project && project.featured ? 'checked' : '' %>>
+            Projeto em Destaque
+          </label>
+        </div>
+        <% if (project) { %>
+        <div class="form-section">
+          <h3><i class="fab fa-github"></i> GitHub</h3>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="create_github" value="1">
+              Criar/Enviar projeto para o GitHub
+            </label>
+          </div>
+          <p style="color:var(--text-muted);font-size:0.85rem;margin-top:8px">O repositório será criado automaticamente com o nome do projeto.</p>
+        </div>
+        <% } %>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> <%= project ? 'Salvar Alterações' : 'Criar Projeto' %>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

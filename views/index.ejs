@@ -1,0 +1,187 @@
+<%- include('partials/header') %>
+
+<main>
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <p class="hero-greeting"><%= settings.hero_greeting || 'Olá, eu sou' %></p>
+          <h1 class="hero-name"><%= settings.hero_title || 'Guilherme' %></h1>
+          <h2 class="hero-subtitle"><%= settings.hero_subtitle || 'Desenvolvedor Full Stack' %></h2>
+          <p class="hero-description"><%= settings.hero_description || '' %></p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary"><%= settings.hero_btn_projects || 'Ver Projetos' %></a>
+            <a href="#contact" class="btn btn-outline"><%= settings.hero_btn_contact || 'Entrar em Contato' %></a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <div class="hero-avatar">
+            <i class="fas fa-code"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about section">
+    <div class="container">
+      <div class="section-header">
+        <h2><%= settings.about_title || 'Sobre Mim' %></h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="about-content">
+        <% if (settings.about_image) { %>
+          <div class="about-image">
+            <img src="<%= settings.about_image %>" alt="Sobre">
+          </div>
+        <% } %>
+        <div class="about-text">
+          <p><%= settings.about_content || '' %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="projects section">
+    <div class="container">
+      <div class="section-header">
+        <h2><%= settings.section_projects_title || 'Projetos' %></h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-grid">
+        <% if (projects && projects.length > 0) { %>
+          <% projects.forEach(function(project) { %>
+            <div class="project-card">
+              <% if (project.featured) { %>
+                <span class="project-badge"><%= settings.project_badge_featured || 'Destaque' %></span>
+              <% } %>
+              <% if (project.image_url) { %>
+                <div class="project-image">
+                  <img src="<%= project.image_url %>" alt="<%= project.title %>">
+                </div>
+              <% } %>
+              <div class="project-info">
+                <h3><%= project.title %></h3>
+                <p><%= project.description %></p>
+                <% if (project.technologies) { %>
+                  <div class="project-tech">
+                    <% project.technologies.split(',').forEach(function(tech) { %>
+                      <span class="tech-tag"><%= tech.trim() %></span>
+                    <% }); %>
+                  </div>
+                <% } %>
+                <div class="project-links">
+                  <% if (project.live_url) { %>
+                    <a href="<%= project.live_url %>" target="_blank" rel="noopener" class="btn btn-sm">
+                      <i class="fas fa-external-link-alt"></i> <%= settings.project_btn_demo || 'Demo' %>
+                    </a>
+                  <% } %>
+                  <% if (project.github_url) { %>
+                    <a href="<%= project.github_url %>" target="_blank" rel="noopener" class="btn btn-sm btn-outline">
+                      <i class="fab fa-github"></i> <%= settings.project_btn_code || 'Código' %>
+                    </a>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p class="empty-state"><%= settings.project_empty || 'Nenhum projeto cadastrado ainda.' %></p>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="skills section">
+    <div class="container">
+      <div class="section-header">
+        <h2><%= settings.section_skills_title || 'Habilidades' %></h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="skills-grid">
+        <% if (skills && skills.length > 0) { %>
+          <% skills.forEach(function(skill) { %>
+            <div class="skill-card">
+              <div class="skill-icon">
+                <i class="<%= skill.icon_class || 'fas fa-code' %>"></i>
+              </div>
+              <h4><%= skill.name %></h4>
+              <div class="skill-bar">
+                <div class="skill-level" style="width: <%= skill.level %>%"></div>
+              </div>
+              <span class="skill-percent"><%= skill.level %>%</span>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p class="empty-state"><%= settings.skills_empty || 'Nenhuma habilidade cadastrada ainda.' %></p>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact section">
+    <div class="container">
+      <div class="section-header">
+        <h2><%= settings.section_contact_title || 'Contato' %></h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="contact-content">
+        <div class="contact-info">
+          <% if (settings.contact_email) { %>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <h4><%= settings.contact_label_email || 'Email' %></h4>
+                <a href="mailto:<%= settings.contact_email %>"><%= settings.contact_email %></a>
+              </div>
+            </div>
+          <% } %>
+          <% if (settings.contact_phone) { %>
+            <div class="contact-item">
+              <i class="fab fa-whatsapp"></i>
+              <div>
+                <h4><%= settings.contact_label_whatsapp || 'WhatsApp' %></h4>
+                <a href="https://wa.me/<%= settings.contact_phone.replace(/\D/g, '') %>" target="_blank" rel="noopener"><%= settings.contact_phone %></a>
+              </div>
+            </div>
+          <% } %>
+          <% if (settings.contact_github) { %>
+            <div class="contact-item">
+              <i class="fab fa-github"></i>
+              <div>
+                <h4><%= settings.contact_label_github || 'GitHub' %></h4>
+                <a href="<%= settings.contact_github %>" target="_blank" rel="noopener"><%= settings.contact_github %></a>
+              </div>
+            </div>
+          <% } %>
+          <% if (settings.contact_linkedin) { %>
+            <div class="contact-item">
+              <i class="fab fa-linkedin-in"></i>
+              <div>
+                <h4><%= settings.contact_label_linkedin || 'LinkedIn' %></h4>
+                <a href="<%= settings.contact_linkedin %>" target="_blank" rel="noopener"><%= settings.contact_linkedin %></a>
+              </div>
+            </div>
+          <% } %>
+        </div>
+        <form class="contact-form" action="/contact" method="POST">
+          <div class="form-group">
+            <input type="text" name="name" placeholder="<%= settings.contact_form_name || 'Seu nome' %>" required>
+          </div>
+          <div class="form-group">
+            <input type="email" name="email" placeholder="<%= settings.contact_form_email || 'Seu email' %>" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="subject" placeholder="<%= settings.contact_form_subject || 'Assunto' %>">
+          </div>
+          <div class="form-group">
+            <textarea name="message" rows="5" placeholder="<%= settings.contact_form_message || 'Sua mensagem' %>" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block"><%= settings.contact_form_submit || 'Enviar Mensagem' %></button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

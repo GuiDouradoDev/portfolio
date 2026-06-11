@@ -1,0 +1,70 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <div class="admin-header">
+    <h1>Dashboard</h1>
+    <p>Bem-vindo, <%= session.username %>!</p>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <i class="fas fa-project-diagram"></i>
+      </div>
+      <div class="stat-info">
+        <h3><%= projectCount %></h3>
+        <p>Projetos</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="stat-info">
+        <h3><%= messageCount %></h3>
+        <p>Mensagens</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <i class="fas fa-envelope-open-text"></i>
+      </div>
+      <div class="stat-info">
+        <h3><%= unreadMessages %></h3>
+        <p>Não lidas</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Mensagens Recentes</h2>
+      <a href="/admin/messages" class="btn btn-sm">Ver Todas</a>
+    </div>
+    <div class="card-body">
+      <% if (recentMessages && recentMessages.length > 0) { %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Assunto</th>
+              <th>Data</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentMessages.forEach(function(msg) { %>
+              <tr class="<%= !msg.read ? 'unread' : '' %>">
+                <td><%= msg.name %></td>
+                <td><%= msg.subject || 'Sem assunto' %></td>
+                <td><%= new Date(msg.created_at).toLocaleDateString('pt-BR') %></td>
+                <td><span class="badge <%= msg.read ? 'badge-read' : 'badge-unread' %>"><%= msg.read ? 'Lida' : 'Não lida' %></span></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p class="empty-state">Nenhuma mensagem recebida.</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

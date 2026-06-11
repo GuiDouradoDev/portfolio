@@ -1,0 +1,50 @@
+<%- include('../partials/admin-header') %>
+<div class="admin-content">
+  <% if (github_result) { %>
+    <div class="alert alert-info"><i class="fas fa-github"></i> <%= github_result %></div>
+  <% } %>
+  <div class="admin-header">
+    <h1>Projetos</h1>
+    <a href="/admin/projects/import" class="btn btn-primary"><i class="fas fa-plus"></i> Novo Projeto</a>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <% if (projects && projects.length > 0) { %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Destaque</th>
+              <th>Ordem</th>
+              <th>Data</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% projects.forEach(function(p) { %>
+              <tr>
+                <td><strong><%= p.title %></strong></td>
+                <td><span class="badge <%= p.featured ? 'badge-featured' : 'badge-normal' %>"><%= p.featured ? 'Destaque' : 'Normal' %></span></td>
+                <td><%= p.sort_order %></td>
+                <td><%= new Date(p.created_at).toLocaleDateString('pt-BR') %></td>
+                <td class="actions">
+                  <a href="/admin/projects/edit/<%= p.id %>" class="btn btn-sm btn-edit" title="Editar">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <form action="/admin/projects/delete/<%= p.id %>" method="POST" class="inline-form" onsubmit="return confirm('Tem certeza?')">
+                    <button type="submit" class="btn btn-sm btn-delete" title="Excluir">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p class="empty-state">Nenhum projeto cadastrado.</p>
+      <% } %>
+    </div>
+  </div>
+</div>
+<%- include('../partials/admin-footer') %>

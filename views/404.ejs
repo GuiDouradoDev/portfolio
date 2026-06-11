@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= settings.error_404_title || '404' %> - <%= settings.site_title || 'Portfolio' %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="error-page">
+  <div class="error-container">
+    <h1><%= settings.error_404_title || '404' %></h1>
+    <p><%= settings.error_404_message || 'Página não encontrada' %></p>
+    <a href="/" class="btn btn-primary"><%= settings.error_404_button || 'Voltar ao início' %></a>
+  </div>
+</body>
+</html>
